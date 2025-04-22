@@ -29,8 +29,8 @@ A privacy-focused Telegram bot that enables anonymous peer-to-peer chatting with
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/okoyausman/TelegramAnonymousP2PChatBot.git
-cd TelegramAnonymousP2PChatBot
+git clone https://github.com/okoyausman/telegram-anonymous-p2p-chat.git
+cd telegram-anonymous-p2p-chat
 ```
 
 2. Install required packages:
