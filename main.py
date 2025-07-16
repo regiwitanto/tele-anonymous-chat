@@ -25,7 +25,7 @@ load_dotenv()
 # Configure logging
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.CRITICAL
+    level=logging.INFO
 )
 logger = logging.getLogger(__name__)
 
@@ -210,6 +210,23 @@ def find_random_match(user_id: int) -> Optional[int]:
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Send a message when the command /start is issued."""
     user = update.effective_user
+    description = (
+        "Welcome to the Anonymous P2P Chat Bot!\n\n"
+        "How it works:\n"
+        "- This bot lets you chat anonymously with random users.\n"
+        "- You can set preferences (country, language, gender) to match with similar users.\n"
+        "- Only text and photo messages are allowed.\n"
+        "- Chats are ended automatically after 1 hour of inactivity.\n\n"
+        "Commands and Features:\n"
+        "/start - Show this message and the main menu.\n"
+        "/end - End your current anonymous chat.\n"
+        "Show Active Users - See how many users are currently online.\n"
+        "Status: Online/Offline - Toggle your availability for matching.\n"
+        "Settings - Set or clear your country, language, or gender preferences.\n"
+        "Find Match - Start searching for a random chat partner.\n\n"
+        "Use the menu buttons to navigate. Enjoy chatting!"
+    )
+    await update.message.reply_text(description)
     await show_main_menu(update, context)
 
 def get_main_menu_markup(is_active: bool) -> InlineKeyboardMarkup:
