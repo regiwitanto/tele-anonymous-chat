@@ -1,4 +1,4 @@
-# Telegram Anonymous P2P Chat Bot
+# Telegram Anonymous P2P Chat Bot (Go Implementation)
 
 A privacy-focused Telegram bot that enables anonymous peer-to-peer chatting with smart matching based on user preferences. Connect with random users while maintaining your privacy and finding matches based on your preferences.
 
@@ -21,9 +21,9 @@ A privacy-focused Telegram bot that enables anonymous peer-to-peer chatting with
 
 ### Prerequisites
 
-- Python 3.7 or higher
+- Go 1.20 or higher
 - A Telegram Bot Token (get it from [@BotFather](https://t.me/BotFather))
-- SQLite3 (usually comes with Python)
+- SQLite3
 
 ### Setup
 
@@ -35,7 +35,7 @@ cd telegram-anonymous-p2p-chat
 
 2. Install required packages:
 ```bash
-pip install python-telegram-bot python-dotenv
+go mod tidy
 ```
 
 3. Create a `.env` file in the project root:
@@ -43,9 +43,10 @@ pip install python-telegram-bot python-dotenv
 BOT_TOKEN=your_telegram_bot_token_here
 ```
 
-4. Run the bot:
+4. Build and run the bot:
 ```bash
-python main.py
+go build -o telegram-bot ./cmd/bot
+./telegram-bot
 ```
 
 ## Usage
@@ -68,14 +69,39 @@ python main.py
    - Use `/end` to end the chat
    - Chat will auto-end after 1 hour of inactivity
 
+## Project Structure
+
+```
+telegram-anonymous-p2p-chat/
+├── cmd/
+│   └── bot/            # Entry point for the application
+├── internal/
+│   ├── bot/            # Bot initialization and management
+│   ├── config/         # Configuration handling
+│   ├── database/       # Database interactions
+│   ├── handlers/       # Telegram update handlers
+│   ├── models/         # Data models
+│   ├── queue/          # Message queue system
+│   └── utils/          # Utility functions
+├── .env.example        # Example environment variables
+├── go.mod              # Go module definition
+├── go.sum              # Go module checksums
+└── README.md           # Project documentation
+```
+
 ## Configuration
 
-The bot has several configurable constants in `main.py`:
+The bot has several configurable constants in `internal/config/config.go`:
 
-```python
-INACTIVITY_TIMEOUT = 3600  # 1 hour in seconds
-MATCH_TIMEOUT = 120  # 2 minutes in seconds
-MESSAGE_RATE_LIMIT = 30  # messages per second
+```go
+// InactivityTimeout is the duration after which an inactive chat will be terminated
+InactivityTimeout = 1 * time.Hour
+
+// MatchTimeout is the maximum duration to wait for finding a match
+MatchTimeout = 2 * time.Minute
+
+// MessageRateLimit is the maximum number of messages per second
+MessageRateLimit = 30
 ```
 
 ## Database
